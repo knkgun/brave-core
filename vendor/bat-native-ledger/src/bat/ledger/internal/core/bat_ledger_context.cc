@@ -12,12 +12,6 @@
 
 namespace ledger {
 
-namespace {
-
-size_t g_next_component_key = 0;
-
-}  // namespace
-
 BATLedgerContext::BATLedgerContext(LedgerImpl* ledger_impl)
     : ledger_client_(ledger_impl->ledger_client()), ledger_impl_(ledger_impl) {
   DCHECK(ledger_client_);
@@ -30,21 +24,18 @@ BATLedgerContext::BATLedgerContext(LedgerClient* ledger_client)
 
 BATLedgerContext::~BATLedgerContext() = default;
 
-using Component = BATLedgerContext::Component;
-using ComponentKey = BATLedgerContext::ComponentKey;
+BATLedgerContext::Object::Object() = default;
 
-ComponentKey::ComponentKey() : value_(g_next_component_key++) {}
-
-Component::Component(BATLedgerContext* context) : context_(context) {}
-
-Component::~Component() = default;
+BATLedgerContext::Object::~Object() = default;
 
 using LogStream = BATLedgerContext::LogStream;
 
 LogStream::LogStream(BATLedgerContext* context,
                      base::Location location,
                      LogLevel log_level)
-    : context_(context), location_(location), log_level_(log_level) {}
+    : context_(context), location_(location), log_level_(log_level) {
+  DCHECK(context);
+}
 
 LogStream::LogStream(LogStream&& other)
     : context_(other.context_),

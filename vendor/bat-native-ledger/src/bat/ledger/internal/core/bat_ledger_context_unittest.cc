@@ -7,8 +7,8 @@
 
 #include <string>
 
-#include "bat/ledger/internal/core/async_result.h"
 #include "bat/ledger/internal/core/bat_ledger_test.h"
+#include "bat/ledger/internal/core/future.h"
 
 namespace ledger {
 
@@ -34,51 +34,54 @@ TEST_F(BATLedgerContextTest, GetSettings) {
     mojom::Environment env;
   } reset_env;
 
-  ASSERT_EQ(ledger::_environment, mojom::Environment::PRODUCTION);
   ledger::_environment = mojom::Environment::PRODUCTION;
-  auto& prod = context()->GetSettings<TestSettings>();
+  auto& prod = context().GetSettings<TestSettings>();
   ASSERT_EQ(prod.a, "prod");
   ASSERT_EQ(prod.b, 1);
 
   ledger::_environment = mojom::Environment::STAGING;
-  auto& staging = context()->GetSettings<TestSettings>();
+  auto& staging = context().GetSettings<TestSettings>();
   ASSERT_EQ(staging.a, "staging");
   ASSERT_EQ(staging.b, 2);
 
   ledger::_environment = mojom::Environment::DEVELOPMENT;
-  auto& dev = context()->GetSettings<TestSettings>();
+  auto& dev = context().GetSettings<TestSettings>();
   ASSERT_EQ(dev.a, "dev");
   ASSERT_EQ(dev.b, 3);
 }
 
-class TestComponent : public BATLedgerContext::Component {
+class TestComponent : public BATLedgerContext::Object {
  public:
-  static const BATLedgerContext::ComponentKey kComponentKey;
-  explicit TestComponent(BATLedgerContext* context) : Component(context) {}
+  static const char kContextKey[];
+
+  TestComponent() = default;
+  ~TestComponent() override = default;
+
+  BATLedgerContext& GetContext() { return context(); }
 };
 
-const BATLedgerContext::ComponentKey TestComponent::kComponentKey;
+const char TestComponent::kContextKey[] = "test-component";
 
 TEST_F(BATLedgerContextTest, GetComponent) {
-  auto* component = context()->Get<TestComponent>();
-  EXPECT_TRUE(component);
-  EXPECT_EQ(context()->Get<TestComponent>(), component);
+  BATLedgerContext context(GetTestLedgerClient());
+  auto& component = context.Get<TestComponent>();
+  EXPECT_EQ(&component.GetContext(), &context);
+  EXPECT_EQ(&context.Get<TestComponent>(), &component);
 }
 
-TEST_F(BATLedgerContextTest, StartTask) {
-  class Task : public BATLedgerContext::Component {
+TEST_F(BATLedgerContextTest, StartJob) {
+  class Job : public BATLedgerContext::Object {
    public:
-    explicit Task(BATLedgerContext* context) : Component(context) {}
-    AsyncResult<int> result() const { return resolver_.result(); }
-    void Start(int n) { resolver_.Complete(std::move(n)); }
+    Future<int> GetFuture() { return std::move(future_pair_.future); }
+    void Start(int n) { future_pair_.resolver.Complete(n); }
 
    private:
-    AsyncResult<int>::Resolver resolver_;
+    FuturePair<int> future_pair_;
   };
 
   int value = 0;
-  context()->StartTask<Task>(100).Then(
-      base::BindLambdaForTesting([&value](const int& v) { value = v; }));
+  context().StartJob<Job>(100).Then(
+      base::BindLambdaForTesting([&value](int v) { value = v; }));
 
   task_environment()->RunUntilIdle();
   EXPECT_EQ(value, 100);

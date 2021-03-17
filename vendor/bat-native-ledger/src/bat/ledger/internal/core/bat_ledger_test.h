@@ -28,8 +28,8 @@ class BATLedgerTest : public testing::Test {
   // Returns the |TaskEnvironment| for this test.
   base::test::TaskEnvironment* task_environment() { return &task_environment_; }
 
-  // Return the |BATLedgerContext| for this test.
-  BATLedgerContext* context() { return &context_; }
+  // Returns the |BATLedgerContext| for this test.
+  BATLedgerContext& context() { return context_; }
 
   // Returns the |TestLedgerClient| instance for this test.
   TestLedgerClient* GetTestLedgerClient() { return &client_; }
