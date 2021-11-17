@@ -13,8 +13,10 @@
 #include "base/one_shot_event.h"
 #include "brave/components/api_request_helper/api_request_helper.h"
 #include "brave/components/brave_private_cdn/headers.h"
+#include "brave/components/brave_today/browser/direct_feed_controller.h"
 #include "brave/components/brave_today/browser/publishers_parsing.h"
 #include "brave/components/brave_today/browser/urls.h"
+#include "brave/components/brave_today/common/brave_news.mojom-shared.h"
 #include "brave/components/brave_today/common/pref_names.h"
 
 namespace brave_news {
@@ -38,28 +40,35 @@ void PublishersController::RemoveObserver(Observer* observer) {
 
 // To be consumed outside of the class - provides a clone
 void PublishersController::GetOrFetchPublishers(
-    GetPublishersCallback callback) {
-  GetOrFetchPublishers(base::BindOnce(
-      [](PublishersController* controller, GetPublishersCallback callback) {
-        // Either there was already data, or the fetch was complete
-        // (with success or error, so we would still check for valid data again,
-        // but it's fine to just send the empty array).
-        // Provide data clone for ownership outside of this class.
-        Publishers clone;
-        for (auto const& kv : controller->publishers_) {
-          clone.insert_or_assign(kv.first, kv.second->Clone());
-        }
-        std::move(callback).Run(std::move(clone));
-      },
-      base::Unretained(this), std::move(callback)));
+    GetPublishersCallback callback,
+    bool wait_for_current_update /* = false */) {
+  GetOrFetchPublishers(
+      base::BindOnce(
+          [](PublishersController* controller, GetPublishersCallback callback) {
+            // Either there was already data, or the fetch was complete
+            // (with success or error, so we would still check for valid data
+            // again, but it's fine to just send the empty array). Provide data
+            // clone for ownership outside of this class.
+            Publishers clone;
+            for (auto const& kv : controller->publishers_) {
+              clone.insert_or_assign(kv.first, kv.second->Clone());
+            }
+            std::move(callback).Run(std::move(clone));
+          },
+          base::Unretained(this), std::move(callback)),
+      wait_for_current_update);
 }
 
 // To be consumed internally - provides no data so that we don't need to clone,
 // as data can be accessed via class property
-void PublishersController::GetOrFetchPublishers(base::OnceClosure callback) {
+void PublishersController::GetOrFetchPublishers(base::OnceClosure callback,
+                                                bool wait_for_current_update) {
   // If in-memory data is already present, no need to wait,
   // otherwise wait for fetch to be complete.
-  if (!publishers_.empty()) {
+  // Also don't wait if there's an update in progress and this caller
+  // wishes to wait.
+  if (!publishers_.empty() &&
+      (!wait_for_current_update || !is_update_in_progress_)) {
     std::move(callback).Run();
     return;
   }
@@ -75,6 +84,7 @@ void PublishersController::EnsurePublishersIsUpdating() {
   if (is_update_in_progress_) {
     return;
   }
+  is_update_in_progress_ = true;
   GURL sources_url("https://" + brave_today::GetHostname() + "/sources." +
                    brave_today::GetRegionUrlPart() + "json");
   auto onRequest = base::BindOnce(
@@ -102,6 +112,47 @@ void PublishersController::EnsurePublishersIsUpdating() {
                        "user prefs: "
                     << publisher_id;
           }
+        }
+        // Add direct publishers (rss feeds)
+        const base::DictionaryValue* direct_feeds_pref =
+            controller->prefs_->GetDictionary(prefs::kBraveTodayDirectFeeds);
+        for (auto const kv : direct_feeds_pref->DictItems()) {
+          if (!kv.second.is_dict()) {
+            // Handle unknown value type
+            LOG(ERROR) << "Found unknown dictionary pref value for"
+                          "Brave News direct feeds at the pref path: "
+                       << prefs::kBraveTodayDirectFeeds << " > " << kv.first;
+            // TODO(petemill): delete item from pref dict?
+            continue;
+          }
+          const base::DictionaryValue& value(
+              base::Value::AsDictionaryValue(kv.second));
+          VLOG(1) << "Found direct feed in prefs: " << kv.first;
+          auto publisher = mojom::Publisher::New();
+          publisher->feed_source = GURL(
+              *value.FindStringKey(prefs::kBraveTodayDirectFeedsKeySource));
+          publisher->publisher_id = kv.first;
+          publisher->publisher_name =
+              *value.FindStringKey(prefs::kBraveTodayDirectFeedsKeyTitle);
+          publisher->type = mojom::PublisherType::DIRECT_SOURCE;
+          // This is always true for direct feeds, reserved property for
+          // "combined source" feeds, and perhaps marking a direct feed
+          // as "bad".
+          publisher->is_enabled = true;
+          // TODO(petemill): Allow the user to disable but not delete a feed
+          publisher->user_enabled_status = mojom::UserEnabled::NOT_MODIFIED;
+          // Validate
+          if (!publisher->feed_source.is_valid()) {
+            LOG(ERROR) << "Found invalid feed url for Brave News "
+                          "direct feeds pref at the path "
+                       << prefs::kBraveTodayDirectFeeds << " > "
+                       << prefs::kBraveTodayDirectFeedsKeySource;
+            // TODO(petemill): delete item from pref dict?
+            continue;
+          }
+          // Is valid
+          publisher_list.insert_or_assign(publisher->publisher_id,
+                                          std::move(publisher));
         }
         // Set memory cache
         controller->publishers_ = std::move(publisher_list);
