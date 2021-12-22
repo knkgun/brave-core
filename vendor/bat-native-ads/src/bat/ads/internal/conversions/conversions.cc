@@ -13,6 +13,7 @@
 #include "base/time/time.h"
 #include "bat/ads/ads.h"
 #include "bat/ads/ads_client.h"
+#include "bat/ads/internal/account/account_util.h"
 #include "bat/ads/internal/ad_events/ad_event_info.h"
 #include "bat/ads/internal/ad_events/ad_events.h"
 #include "bat/ads/internal/ads_client_helper.h"
@@ -271,8 +272,15 @@ void Conversions::CheckRedirectChain(
 
       bool converted = false;
 
+      const bool should_reward_user = ShouldRewardUser();
+
       // Check for conversions
       for (const auto& conversion : filtered_conversions) {
+        if (!should_reward_user && conversion.type != "postclick") {
+          // Only convert postclicks if ads are disabled
+          continue;
+        }
+
         const AdEventList& filtered_ad_events =
             FilterAdEventsForConversion(ad_events, conversion);
 
