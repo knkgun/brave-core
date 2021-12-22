@@ -52,23 +52,21 @@ bool AdPreferencesInfo::FromJson(const std::string& json) {
   }
 
   for (const auto& ad : document["saved_ads"].GetArray()) {
-    if (!ad["uuid"].IsString() || !ad["creative_set_id"].IsString()) {
+    if (!ad["uuid"].IsString()) {
       return false;
     }
 
     SavedAdInfo saved_ad;
     saved_ad.creative_instance_id = ad["uuid"].GetString();
-    saved_ad.creative_set_id = ad["creative_set_id"].GetString();
     saved_ads.push_back(saved_ad);
   }
 
   for (const auto& ad : document["flagged_ads"].GetArray()) {
-    if (!ad["uuid"].IsString() || !ad["creative_set_id"].IsString()) {
+    if (!ad["creative_set_id"].IsString()) {
       return false;
     }
 
     FlaggedAdInfo flagged_ad;
-    flagged_ad.creative_instance_id = ad["uuid"].GetString();
     flagged_ad.creative_set_id = ad["creative_set_id"].GetString();
     flagged_ads.push_back(flagged_ad);
   }
@@ -111,9 +109,6 @@ void SaveToJson(JsonWriter* writer, const AdPreferencesInfo& info) {
     writer->String("uuid");
     writer->String(ad.creative_instance_id.c_str());
 
-    writer->String("creative_set_id");
-    writer->String(ad.creative_set_id.c_str());
-
     writer->EndObject();
   }
   writer->EndArray();
@@ -122,9 +117,6 @@ void SaveToJson(JsonWriter* writer, const AdPreferencesInfo& info) {
   writer->StartArray();
   for (const auto& ad : info.flagged_ads) {
     writer->StartObject();
-
-    writer->String("uuid");
-    writer->String(ad.creative_instance_id.c_str());
 
     writer->String("creative_set_id");
     writer->String(ad.creative_set_id.c_str());

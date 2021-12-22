@@ -271,8 +271,8 @@ class AdsBox extends React.Component<Props, State> {
     this.props.actions.toggleAdOptOut(category, action)
   }
 
-  onMenuSave = (creativeInstanceId: string, creativeSetId: string, saved: boolean) => {
-    this.props.actions.toggleSavedAd(creativeInstanceId, creativeSetId, saved)
+  onMenuSave = (adContent: Rewards.AdContent) => {
+    this.props.actions.toggleSavedAd(adContent)
   }
 
   onMenuFlag = (adContent: Rewards.AdContent) => {
@@ -338,9 +338,7 @@ class AdsBox extends React.Component<Props, State> {
       onThumbDownPress: () =>
         this.onThumbDownPress(adHistory.adContent),
       onMenuSave: () =>
-        this.onMenuSave(adHistory.adContent.creativeInstanceId,
-                        adHistory.adContent.creativeSetId,
-                        adHistory.adContent.savedAd),
+        this.onMenuSave(adHistory.adContent),
       onMenuFlag: () =>
         this.onMenuFlag(adHistory.adContent)
     }
