@@ -157,6 +157,11 @@ void Conversions::Migrate(mojom::DBTransaction* transaction,
       break;
     }
 
+    case 20: {
+      MigrateToV20(transaction);
+      break;
+    }
+
     default: {
       break;
     }
@@ -257,6 +262,46 @@ void Conversions::MigrateToV10(mojom::DBTransaction* transaction) {
   transaction->commands.push_back(std::move(command));
 
   util::CreateIndex(transaction, "creative_ad_conversions", "creative_set_id");
+}
+
+void Conversions::MigrateToV20(mojom::DBTransaction* transaction) {
+  DCHECK(transaction);
+
+  util::Rename(transaction, "creative_ad_conversions",
+               "creative_ad_conversions_temp");
+
+  const std::string& query = base::StringPrintf(
+      "CREATE TABLE ad_conversions "
+      "(creative_set_id TEXT NOT NULL, "
+      "type TEXT NOT NULL, "
+      "url_pattern TEXT NOT NULL, "
+      "advertiser_public_key TEXT, "
+      "observation_window INTEGER NOT NULL, "
+      "expiry_timestamp TIMESTAMP NOT NULL, "
+      "UNIQUE(creative_set_id, type) ON CONFLICT REPLACE, "
+      "PRIMARY KEY(creative_set_id, type)); "
+      "INSERT OR REPLACE INTO creative_ad_conversions "
+      "(creative_set_id, "
+      "type, "
+      "url_pattern, "
+      "advertiser_public_key, "
+      "observation_window, "
+      "expiry_timestamp) "
+      "SELECT creative_set_id, "
+      "type, "
+      "url_pattern, "
+      "advertiser_public_key, "
+      "observation_window, "
+      "expiry_timestamp "
+      "FROM creative_ad_conversions_temp");
+
+  mojom::DBCommandPtr command = mojom::DBCommand::New();
+  command->type = mojom::DBCommand::Type::EXECUTE;
+  command->command = query;
+
+  transaction->commands.push_back(std::move(command));
+
+  util::Drop(transaction, "creative_ad_conversions_temp");
 }
 
 }  // namespace table
