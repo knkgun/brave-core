@@ -20,7 +20,7 @@ const int kDefaultResourceVersion = 1;
 
 const char kFieldTrialParameterDefaultConversionIdPattern[] =
     "conversions_default_conversion_id_pattern";
-const char kDefaultDefaultConversionIdPattern[] =
+const char kDefaultConversionIdPattern[] =
     "<meta.*name=\"ad-conversion-id\".*content=\"([^\"]*)\".*>";
 }  // namespace
 
@@ -35,10 +35,10 @@ int GetConversionsResourceVersion() {
       kFeature, kFieldTrialParameterResourceVersion, kDefaultResourceVersion);
 }
 
-std::string GetGetDefaultConversionIdPattern() {
+std::string GetDefaultConversionIdPattern() {
   return GetFieldTrialParamByFeatureAsString(
       kFeature, kFieldTrialParameterDefaultConversionIdPattern,
-      kDefaultDefaultConversionIdPattern);
+      kDefaultConversionIdPattern);
 }
 
 }  // namespace features
