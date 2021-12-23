@@ -1,9 +1,9 @@
 diff --git a/chrome/browser/ui/webui/extensions/extensions_ui.cc b/chrome/browser/ui/webui/extensions/extensions_ui.cc
-index 19570adb3a05ebf8c2431112b0acbbd0f1f1b343..49cf96f92dc4127ebe5115c85649f5db51fc8e9c 100644
+index 32f980561b3ca8de8c9e4b0d44609c26b42c99ee..4783412a0e514a9815d611a365e457f179db25cc 100644
 --- a/chrome/browser/ui/webui/extensions/extensions_ui.cc
 +++ b/chrome/browser/ui/webui/extensions/extensions_ui.cc
-@@ -339,6 +339,8 @@ content::WebUIDataSource* CreateExtensionsSource(Profile* profile,
-       kUseNewSiteAccessPage,
+@@ -338,6 +338,8 @@ content::WebUIDataSource* CreateExtensionsSource(Profile* profile,
+       kExtensionsMenuAccessControlEnabled,
        base::FeatureList::IsEnabled(features::kExtensionsMenuAccessControl));
  
 +  BraveAddExtensionsResources(source);

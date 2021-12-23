@@ -1,8 +1,8 @@
 diff --git a/chrome/browser/prefs/browser_prefs.cc b/chrome/browser/prefs/browser_prefs.cc
-index f2a12d0545a6d29e61111e98770f58d82dabcfbf..b12dbef9c86575c754f6f8dc8b8595fa125e9883 100644
+index 3aa33b0ebec08f713fccea074bee905fa29849cf..079c5fbc2f0633f55af4b5c209110bdb980a1ec9 100644
 --- a/chrome/browser/prefs/browser_prefs.cc
 +++ b/chrome/browser/prefs/browser_prefs.cc
-@@ -1111,6 +1111,7 @@ void RegisterLocalState(PrefRegistrySimple* registry) {
+@@ -1137,6 +1137,7 @@ void RegisterLocalState(PrefRegistrySimple* registry) {
    downgrade::RegisterPrefs(registry);
    DeviceOAuth2TokenStoreDesktop::RegisterPrefs(registry);
  #endif
@@ -10,7 +10,7 @@ index f2a12d0545a6d29e61111e98770f58d82dabcfbf..b12dbef9c86575c754f6f8dc8b8595fa
  
    // This is intentionally last.
    RegisterLocalStatePrefsForMigration(registry);
-@@ -1429,6 +1430,7 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry,
+@@ -1455,6 +1456,7 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry,
    registry->RegisterBooleanPref(prefs::kPrivacyGuideViewed, false);
  
    RegisterProfilePrefsForMigration(registry);
