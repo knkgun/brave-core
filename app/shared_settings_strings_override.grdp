@@ -18,6 +18,6 @@
   <if expr="not chromeos">
       </if>
 
-  <if expr="chromeos or lacros">
+  <if expr="chromeos_ash or chromeos_lacros">
     </if>
 </grit-part>
