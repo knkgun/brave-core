@@ -11,7 +11,7 @@
 namespace tor {
 
 TorTabHelper::TorTabHelper(content::WebContents* web_contents)
-    : content::WebContentsObserver(web_contents) {}
+    : content::WebContentsUserData<TorTabHelper>(*web_contents) {}
 
 TorTabHelper::~TorTabHelper() = default;
 

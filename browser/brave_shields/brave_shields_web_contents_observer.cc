@@ -89,7 +89,9 @@ BraveShieldsWebContentsObserver::~BraveShieldsWebContentsObserver() {
 
 BraveShieldsWebContentsObserver::BraveShieldsWebContentsObserver(
     WebContents* web_contents)
-    : WebContentsObserver(web_contents), receivers_(web_contents, this) {}
+    : content::WebContentsUserData<BraveShieldsWebContentsObserver>(
+          *web_contents),
+      receivers_(web_contents, this) {}
 
 void BraveShieldsWebContentsObserver::RenderFrameCreated(RenderFrameHost* rfh) {
   if (rfh && allowed_script_origins_.size()) {

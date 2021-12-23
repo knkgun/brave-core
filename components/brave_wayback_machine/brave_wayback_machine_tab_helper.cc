@@ -24,7 +24,7 @@
 
 BraveWaybackMachineTabHelper::BraveWaybackMachineTabHelper(
     content::WebContents* contents)
-    : WebContentsObserver(contents),
+    : content::WebContentsUserData<BraveWaybackMachineTabHelper>(*contents),
       weak_factory_(this) {
   pref_service_ = user_prefs::UserPrefs::Get(contents->GetBrowserContext());
 }
@@ -65,7 +65,7 @@ void BraveWaybackMachineTabHelper::DidFinishNavigation(
 
 void BraveWaybackMachineTabHelper::CreateInfoBar() {
   DCHECK(delegate_);
-  delegate_->CreateInfoBar(web_contents());
+  delegate_->CreateInfoBar(&GetWebContents());
 }
 
 bool BraveWaybackMachineTabHelper::IsWaybackMachineEnabled() const {
