@@ -1211,6 +1211,7 @@ class NewTabPage extends React.Component<Props, State> {
           textDirection={newTabData.textDirection}
           showSettingsMenu={showSettingsMenu}
           featureFlagBraveNewsEnabled={newTabData.featureFlagBraveNewsEnabled}
+          featureCustomBackgroundEnabled={newTabData.featureCustomBackgroundEnabled}
           onClose={this.closeSettings}
           setActiveTab={this.state.activeSettingsTab || undefined}
           onDisplayTodaySection={this.props.actions.today.ensureSettingsData}

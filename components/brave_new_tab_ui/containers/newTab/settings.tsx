@@ -47,6 +47,7 @@ export interface Props {
   textDirection: string
   showSettingsMenu: boolean
   featureFlagBraveNewsEnabled: boolean
+  featureCustomBackgroundEnabled: boolean
   onClose: () => void
   onDisplayTodaySection: () => any
   onClearTodayPrefs: () => any
@@ -257,6 +258,7 @@ export default class Settings extends React.PureComponent<Props, State> {
       toggleShowBraveTalk,
       toggleBrandedWallpaperOptIn,
       showBackgroundImage,
+      featureCustomBackgroundEnabled,
       showStats,
       showClock,
       clockFormat,
@@ -340,6 +342,7 @@ export default class Settings extends React.PureComponent<Props, State> {
                     toggleShowBackgroundImage={this.toggleShowBackgroundImage}
                     brandedWallpaperOptIn={brandedWallpaperOptIn}
                     showBackgroundImage={showBackgroundImage}
+                    featureCustomBackgroundEnabled={featureCustomBackgroundEnabled}
                   />
                 ) : null
               }

@@ -18,6 +18,7 @@ interface Props {
   toggleShowBackgroundImage: () => void
   brandedWallpaperOptIn: boolean
   showBackgroundImage: boolean
+  featureCustomBackgroundEnabled: boolean
 }
 
 class BackgroundImageSettings extends React.PureComponent<Props, {}> {
