@@ -452,6 +452,18 @@ constexpr webui::LocalizedString kLocalizedStrings[] = {
      IDS_BRAVE_WALLET_TRANSACTION_STATUS_CONFIRMED},
     {"braveWalletTransactionStatusError",
      IDS_BRAVE_WALLET_TRANSACTION_STATUS_ERROR},
+    {"braveWalletRecentTransactions", IDS_BRAVE_WALLET_RECENT_TRANSACTIONS},
+    {"braveWalletTransactionDetails", IDS_BRAVE_WALLET_TRANSACTION_DETAILS},
+    {"braveWalletTransactionDetailDate",
+     IDS_BRAVE_WALLET_TRANSACTION_DETAIL_DATE},
+    {"braveWalletTransactionDetailSpeedUp",
+     IDS_BRAVE_WALLET_TRANSACTION_DETAIL_SPEEDUP},
+    {"braveWalletTransactionDetailHash",
+     IDS_BRAVE_WALLET_TRANSACTION_DETAIL_HASH},
+    {"braveWalletTransactionDetailNetwork",
+     IDS_BRAVE_WALLET_TRANSACTION_DETAIL_NETWORK},
+    {"braveWalletTransactionDetailStatus",
+     IDS_BRAVE_WALLET_TRANSACTION_DETAIL_STATUS},
     {"braveWalletTransactionPlaceholder",
      IDS_BRAVE_WALLET_TRANSACTION_PLACEHOLDER},
     {"braveWalletTransactionApproveUnlimited",
@@ -473,6 +485,8 @@ constexpr webui::LocalizedString kLocalizedStrings[] = {
     {"braveWalletEditGasGwei", IDS_BRAVE_WALLET_EDIT_GAS_GWEI},
     {"braveWalletEditGasSetCustom", IDS_BRAVE_WALLET_EDIT_GAS_SET_CUSTOM},
     {"braveWalletEditGasSetSuggested", IDS_BRAVE_WALLET_EDIT_GAS_SET_SUGGESTED},
+    {"braveWalletEditGasZeroGasPriceWarning",
+     IDS_BRAVE_WALLET_EDIT_GAS_ZERO_GAS_PRICE_WARNING},
     {"braveWalletEditPermissionsTitle",
      IDS_BRAVE_WALLET_EDIT_PERMISSIONS_TITLE},
     {"braveWalletEditPermissionsDescription",
@@ -555,6 +569,9 @@ constexpr char kCryptoEthAddressKey[] = "crypto.ETH.address";
 
 // ERC-165 identifier for ERC721 interface.
 constexpr char kERC721InterfaceId[] = "0x80ac58cd";
+
+extern const char kDefaultKeyringId[];
+extern const char kFilecoinKeyringId[];
 
 }  // namespace brave_wallet
 

@@ -4,11 +4,12 @@
   <message name="IDS_ACCNAME_BRAVE_WALLET_BUTTON" desc="The accessible name for the Brave Wallet bubble.">Brave Wallet</message>
   <message name="IDS_BRAVE_WALLET" desc="The name of the feature Brave Wallet">Brave Wallet</message>
   <message name="IDS_WALLET_USER_REJECTED_REQUEST" desc="The text of the response for brave provider call if the user rejected the request">The user rejected the request.</message>
-  <message name="IDS_WALLET_INVALID_PARAMETERS" desc="The text of the response for wallet_addEthereumChain call with invalid parameters">Invalid parameters.</message>
+  <message name="IDS_WALLET_INVALID_PARAMETERS" desc="The call was made with invalid parameters">Invalid parameters.</message>
   <message name="IDS_WALLET_UNKNOWN_CHAIN" desc="The text of the response for wallet_switchEthereumChain call with unknown">Chain <ph name="VALUE">$1<ex>1</ex></ph> hasn't been added</message>
   <message name="IDS_WALLET_EXPECTED_SINGLE_PARAMETER" desc="The text of the response for wallet_addEthereumChain call with empty parameters">Expected single, object parameter.</message>
   <message name="IDS_WALLET_CHAIN_EXISTS" desc="The text of the response for wallet_addEthereumChain call with existing chain id">This Chain ID is currently used</message>
   <message name="IDS_WALLET_INTERNAL_ERROR" desc="The text of the response for wallet_addEthereumChain call with internal error">An internal error has occurred</message>
+  <message name="IDS_WALLET_PARSING_ERROR" desc="There was a parsing error">A response parsing error has occurred</message>
   <message name="IDS_WALLET_INVALID_MNEMONIC_ERROR" desc="The text for invalid mnemonic being imported error">The mnemonic being imported is not valid for Brave Wallet</message>
   <message name="IDS_WALLET_ALREADY_IN_PROGRESS_ERROR" desc="The text of the response for wallet_(add|switch)EthereumChain call for existing request">A request is already in progress</message>
   <message name="IDS_WALLET_ETH_SEND_TRANSACTION_NO_TX_DATA" desc="The text of the response for eth_sendTransaction">Transaction data is missing</message>
@@ -91,7 +92,7 @@
   <message name="IDS_BRAVE_WALLET_WELCOME_BUTTON" desc="Onboarding get started button">Get Started</message>
   <message name="IDS_BRAVE_WALLET_WELCOME_RESTORE_BUTTON" desc="Restore screen button">Restore</message>
   <message name="IDS_BRAVE_WALLET_BACKUP_INTRO_TITLE" desc="Backup screen title">Back up your crypto wallet</message>
-  <message name="IDS_BRAVE_WALLET_BACKUP_INTRO_DESCRIPTION" desc="Backup screen description">In the next step you’ll see a 12-word recovery phrase, which you can use to recover your primary crypto accounts. Save it someplace safe. Your recovery phrase is the only way to regain account access in case of forgotten password, lost or stolen device, or you want to switch wallets.</message>
+  <message name="IDS_BRAVE_WALLET_BACKUP_INTRO_DESCRIPTION" desc="Backup screen description">In the next step you’ll see a <ph name="RECOVERY_PHRASE_LENGTH">$1</ph>-word recovery phrase, which you can use to recover your primary crypto accounts. Save it someplace safe. Your recovery phrase is the only way to regain account access in case of forgotten password, lost or stolen device, or you want to switch wallets.</message>
   <message name="IDS_BRAVE_WALLET_BACKUP_INTRO_TERMS" desc="Backup screen terms check box">I understand that if I lose my recovery words, I will not be able to access my crypto wallet.</message>
   <message name="IDS_BRAVE_WALLET_BACKUP_BUTTON_SKIP" desc="Backup screen skip button">Skip</message>
   <message name="IDS_BRAVE_WALLET_BACKUP_BUTTON_CANCEL" desc="Backup screen cancel button">Cancel</message>
@@ -300,6 +301,13 @@
   <message name="IDS_BRAVE_WALLET_TRANSACTION_STATUS_SUBMITTED" desc="Status label for submitted transaction">Submitted</message>
   <message name="IDS_BRAVE_WALLET_TRANSACTION_STATUS_CONFIRMED" desc="Status label for confirmed transaction">Confirmed</message>
   <message name="IDS_BRAVE_WALLET_TRANSACTION_STATUS_ERROR" desc="Status label for error transaction">Error</message>
+  <message name="IDS_BRAVE_WALLET_RECENT_TRANSACTIONS" desc="Transactions panel title">Recent transactions</message>
+  <message name="IDS_BRAVE_WALLET_TRANSACTION_DETAILS" desc="Transaction details panel title">Transaction details</message>
+  <message name="IDS_BRAVE_WALLET_TRANSACTION_DETAIL_DATE" desc="Transaction Detail Panel Date of transactions">Date</message>
+  <message name="IDS_BRAVE_WALLET_TRANSACTION_DETAIL_SPEEDUP" desc="Transaction Detail Panel Speedup transactions button">Speedup</message>
+  <message name="IDS_BRAVE_WALLET_TRANSACTION_DETAIL_HASH" desc="Transaction Detail Panel Transaction Hash">Transaction hash</message>
+  <message name="IDS_BRAVE_WALLET_TRANSACTION_DETAIL_NETWORK" desc="Transaction Detail Panel Blockchain Network">Network</message>
+  <message name="IDS_BRAVE_WALLET_TRANSACTION_DETAIL_STATUS" desc="Transaction Detail Panel Status of Transactions">Status</message>
   <message name="IDS_BRAVE_WALLET_EDIT_GAS_TITLE1" desc="Edit gas panel max fee label">Max priority fee</message>
   <message name="IDS_BRAVE_WALLET_EDIT_GAS_TITLE2" desc="Edit gas panel edit gas button">Edit gas</message>
   <message name="IDS_BRAVE_WALLET_EDIT_GAS_DESCRIPTION" desc="Edit gas panel description">While not a guarantee, miners will likely prioritize your transaction if you pay a higher fee.</message>
@@ -316,6 +324,7 @@
   <message name="IDS_BRAVE_WALLET_EDIT_GAS_GWEI" desc="Edit gas panel gwei label">Gwei</message>
   <message name="IDS_BRAVE_WALLET_EDIT_GAS_SET_CUSTOM" desc="Edit gas panel set custom button">Set custom</message>
   <message name="IDS_BRAVE_WALLET_EDIT_GAS_SET_SUGGESTED" desc="Edit gas panel set suggested button">Set suggested</message>
+  <message name="IDS_BRAVE_WALLET_EDIT_GAS_ZERO_GAS_PRICE_WARNING" desc="Edit gas panel zero gas price warning">Transaction may not be propagated in the network.</message>
   <message name="IDS_BRAVE_WALLET_EDIT_PERMISSIONS_TITLE" desc="Edit allowance panel title">Edit permissions</message>
   <message name="IDS_BRAVE_WALLET_EDIT_PERMISSIONS_DESCRIPTION" desc="Edit allowance panel description">Spend limit permission allows <ph name="SITE_ORIGIN"><ex>uniswap</ex>$1</ph> to withdraw and spend up to the following amount:</message>
   <message name="IDS_BRAVE_WALLET_EDIT_PERMISSIONS_BUTTON" desc="Edit allowance panel button">Edit permissions</message>
