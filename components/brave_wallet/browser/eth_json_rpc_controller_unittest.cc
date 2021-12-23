@@ -204,7 +204,7 @@ class EthJsonRpcControllerUnitTest : public testing::Test {
   bool GetIsEip1559FromPrefs(const std::string& chain_id) {
     if (chain_id == mojom::kLocalhostChainId)
       return prefs()->GetBoolean(kSupportEip1559OnLocalhostChain);
-    const base::ListValue* custom_networks =
+    const base::Value* custom_networks =
         prefs()->GetList(kBraveWalletCustomNetworks);
     if (!custom_networks)
       return false;
@@ -568,7 +568,7 @@ TEST_F(EthJsonRpcControllerUnitTest, AddEthereumChainApproved) {
   ASSERT_EQ(custom_chains.size(), 1u);
   EXPECT_EQ(custom_chains[0], chain.Clone());
 
-  const base::DictionaryValue* assets_pref =
+  const base::Value* assets_pref =
       prefs()->GetDictionary(kBraveWalletUserAssets);
   const base::Value* list = assets_pref->FindKey("0x111");
   ASSERT_TRUE(list->is_list());

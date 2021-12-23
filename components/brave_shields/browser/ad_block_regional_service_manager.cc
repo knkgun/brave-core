@@ -69,7 +69,8 @@ void AdBlockRegionalServiceManager::StartRegionalServices() {
   // Start all regional services associated with enabled filter lists
   base::AutoLock lock(regional_services_lock_);
   const base::DictionaryValue* regional_filters_dict =
-      local_state->GetDictionary(prefs::kAdBlockRegionalFilters);
+      &base::Value::AsDictionaryValue(
+          *local_state->GetDictionary(prefs::kAdBlockRegionalFilters));
   for (base::DictionaryValue::Iterator it(*regional_filters_dict);
        !it.IsAtEnd(); it.Advance()) {
     const std::string uuid = it.key();
@@ -306,7 +307,8 @@ AdBlockRegionalServiceManager::GetRegionalLists() {
   if (!local_state)
     return nullptr;
   const base::DictionaryValue* regional_filters_dict =
-      local_state->GetDictionary(prefs::kAdBlockRegionalFilters);
+      &base::Value::AsDictionaryValue(
+          *local_state->GetDictionary(prefs::kAdBlockRegionalFilters));
 
   const bool cookie_list_touched =
       local_state->GetBoolean(prefs::kAdBlockCookieListSettingTouched);

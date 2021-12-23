@@ -322,7 +322,7 @@ TEST_F(KeyringControllerUnitTest, HasAndGetPrefForKeyring) {
 TEST_F(KeyringControllerUnitTest, SetPrefForKeyring) {
   KeyringController::SetPrefForKeyring(GetPrefs(), "pref1", base::Value("123"),
                                        "default");
-  const base::DictionaryValue* keyrings_pref =
+  const base::Value* keyrings_pref =
       GetPrefs()->GetDictionary(kBraveWalletKeyrings);
   ASSERT_NE(keyrings_pref, nullptr);
   const base::Value* value = keyrings_pref->FindPath("default.pref1");
