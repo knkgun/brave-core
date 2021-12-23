@@ -3,15 +3,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#ifndef BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PRIVACY_SANDBOX_PRIVACY_SANDBOX_SETTINGS_H_
-#define BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PRIVACY_SANDBOX_PRIVACY_SANDBOX_SETTINGS_H_
+#ifndef BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PRIVACY_SANDBOX_PRIVACY_SANDBOX_SERVICE_H_
+#define BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PRIVACY_SANDBOX_PRIVACY_SANDBOX_SERVICE_H_
 
 #define OnPrivacySandboxPrefChanged() \
   OnPrivacySandboxPrefChanged();      \
   void OnPrivacySandboxPrefChanged_ChromiumImpl()
 
-#include "src/chrome/browser/privacy_sandbox/privacy_sandbox_settings.h"
+#include "src/chrome/browser/privacy_sandbox/privacy_sandbox_service.h"
 
 #undef OnPrivacySandboxPrefChanged
 
-#endif  // BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PRIVACY_SANDBOX_PRIVACY_SANDBOX_SETTINGS_H_
+#endif  // BRAVE_CHROMIUM_SRC_CHROME_BROWSER_PRIVACY_SANDBOX_PRIVACY_SANDBOX_SERVICE_H_

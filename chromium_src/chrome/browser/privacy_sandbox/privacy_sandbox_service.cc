@@ -3,15 +3,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#include "chrome/browser/privacy_sandbox/privacy_sandbox_settings.h"
+#include "chrome/browser/privacy_sandbox/privacy_sandbox_service.h"
 
 #define OnPrivacySandboxPrefChanged() OnPrivacySandboxPrefChanged_ChromiumImpl()
 
-#include "src/chrome/browser/privacy_sandbox/privacy_sandbox_settings.cc"
+#include "src/chrome/browser/privacy_sandbox/privacy_sandbox_service.cc"
 
 #undef OnPrivacySandboxPrefChanged
 
-void PrivacySandboxSettings::OnPrivacySandboxPrefChanged() {
+void PrivacySandboxService::OnPrivacySandboxPrefChanged() {
   OnPrivacySandboxPrefChanged_ChromiumImpl();
 
   // Make sure that Private Sandbox features remain disabled even if we manually
