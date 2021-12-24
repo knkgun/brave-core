@@ -1046,7 +1046,7 @@ Are you sure you want to do this?
       </message>
       <message name="IDS_USER_WALLET_STATUS_PENDING">
         Pending
-      </message
+      </message>
       <message name="IDS_BAT_NOT_ALLOWED_IN_REGION">
         BAT is not currently supported in your region based on the location your account is opened. Check back later for availability.
       </message>
