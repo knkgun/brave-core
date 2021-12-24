@@ -588,7 +588,7 @@ class BraveWalletProviderImplUnitTest : public testing::Test {
 
  protected:
   content::BrowserTaskEnvironment browser_task_environment_;
-  EthJsonRpcController* eth_json_rpc_controller_;
+  raw_ptr<EthJsonRpcController> eth_json_rpc_controller_ = nullptr;
   raw_ptr<BraveWalletService> brave_wallet_service_ = nullptr;
   std::unique_ptr<TestEventsListener> observer_;
 

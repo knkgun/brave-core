@@ -4,6 +4,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "base/command_line.h"
+#include "base/memory/raw_ptr.h"
 #include "base/path_service.h"
 #include "base/test/bind.h"
 #include "brave/browser/brave_wallet/brave_wallet_service_factory.h"
@@ -102,7 +103,7 @@ class WalletWatchAssetBrowserTest : public InProcessBrowserTest {
   }
 
  protected:
-  BraveWalletService* brave_wallet_service_;
+  raw_ptr<BraveWalletService> brave_wallet_service_ = nullptr;
   std::vector<std::string> methods_{"request", "send1", "send2", "sendAsync"};
   std::vector<std::string> addresses_{
       "0x6B175474E89094C44Da98b954EedeAC495271d0F",
@@ -114,7 +115,7 @@ class WalletWatchAssetBrowserTest : public InProcessBrowserTest {
 
  private:
   net::test_server::EmbeddedTestServer https_server_;
-  KeyringController* keyring_controller_;
+  raw_ptr<KeyringController> keyring_controller_ = nullptr;
 };
 
 IN_PROC_BROWSER_TEST_F(WalletWatchAssetBrowserTest, UserApprovedRequest) {
